@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Carbon;
 
-class CreateTableDaftarKejadian extends Migration
+class CreateTableKejadian extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateTableDaftarKejadian extends Migration
      */
     public function up()
     {
-        Schema::create('daftar_kejadian', function (Blueprint $table) {
+        Schema::create('kejadian', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_kejadian',200);
             $table->smallInteger('poin_kejadian');
@@ -95,7 +95,7 @@ class CreateTableDaftarKejadian extends Migration
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
         );
-        DB::table('daftar_kejadian')->insert($data);
+        DB::table('kejadian')->insert($data);
     }
 
     /**
@@ -105,6 +105,6 @@ class CreateTableDaftarKejadian extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daftar_kejadian');
+        Schema::dropIfExists('kejadian');
     }
 }

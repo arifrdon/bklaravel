@@ -17,5 +17,23 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('daftar_kejadian', 'DaftarKejadianController@index');
-Route::get('daftar_kejadian/create', 'DaftarKejadianController@create');
+// Route::get('daftar_kejadian', 'DaftarKejadianController@index');
+// Route::get('daftar_kejadian/create', 'DaftarKejadianController@create');
+// Route::post('daftar_kejadian', 'DaftarKejadianController@store');
+// Route::get('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@show');
+// Route::get('daftar_kejadian/{daftar_kejadian}/edit', 'DaftarKejadianController@edit');
+// Route::patch('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@update');
+// Route::delete('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@destroy');
+Route::resource('kejadian','KejadianController');
+
+// Route::get('kejadian_siswa', 'KejadianSiswaController@index');
+// Route::get('kejadian_siswa/create', 'KejadianSiswaController@create');
+// Route::post('kejadian_siswa', 'KejadianSiswaController@store');
+// Route::get('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@show');
+// Route::get('kejadian_siswa/{kejadian_siswa}/edit', 'KejadianSiswaController@edit');
+// Route::patch('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@update');
+// Route::delete('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@destroy');
+Route::resource('kejadian_siswa','KejadianSiswaController');
+
+Route::get('skor_siswa', 'SkorSiswaController@index');
+Route::get('bismillahtest', 'SkorSiswaController@bismillahtest');

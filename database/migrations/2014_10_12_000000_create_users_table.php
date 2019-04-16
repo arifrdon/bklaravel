@@ -21,12 +21,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('level', ['guru', 'kepala_sekolah', 'guru_bk', 'admin']);
+            $table->enum('level', ['guru', 'kepala_sekolah', 'guru_bk', 'admin', 'orang_tua']);
             $table->string('nomor_telepon')->unique();
             $table->text('alamat');
             $table->rememberToken();
             $table->timestamps();
         });
+
+        
 
         $data = array(
             [
@@ -83,7 +85,51 @@ class CreateUsersTable extends Migration
                 'alamat' => 'Jl Rambutan',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ]
+            ],
+            [
+                'username' => '1634010039',
+                'name' => 'Joko',
+                'email' => 'joko@joko.com',
+                'password' => bcrypt('1634010039'),
+                'level' => 'guru',
+                'nomor_telepon' => '081111111116',
+                'alamat' => 'Jl Melon',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'username' => '1734010039',
+                'name' => 'Marni',
+                'email' => 'marni@marni.com',
+                'password' => bcrypt('1734010039'),
+                'level' => 'orang_tua',
+                'nomor_telepon' => '081111111117',
+                'alamat' => 'Jl Melon',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'username' => '1834010039',
+                'name' => 'Margaretha',
+                'email' => 'margaretha@margaretha.com',
+                'password' => bcrypt('1834010039'),
+                'level' => 'orang_tua',
+                'nomor_telepon' => '081111111118',
+                'alamat' => 'Jl Melon',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'username' => '1934010039',
+                'name' => 'Agatha',
+                'email' => 'agatha@agatha.com',
+                'password' => bcrypt('1934010039'),
+                'level' => 'orang_tua',
+                'nomor_telepon' => '081111111119',
+                'alamat' => 'Jl Melon',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
         );
         
         DB::table('users')->insert($data);
@@ -96,6 +142,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+       
         Schema::dropIfExists('users');
     }
 }

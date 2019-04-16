@@ -14,7 +14,7 @@
 
 			<div class="container-fluid">
 
-				{{-- @include('_partials/breadcrumb') ?> --}}
+				@include('_partials/flash_message') 
 
 				
                 @yield('main')
@@ -36,6 +36,6 @@
     @include('_partials/modal')
 
     @include('_partials/js')
-	
+	@yield('added-js')
 </body>
 </html>
