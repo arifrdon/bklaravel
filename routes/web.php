@@ -36,4 +36,15 @@ Route::resource('kejadian','KejadianController');
 Route::resource('kejadian_siswa','KejadianSiswaController');
 
 Route::get('skor_siswa', 'SkorSiswaController@index');
+Route::get('skor_siswa/{skor_siswa}/detail', 'SkorSiswaController@show');
+Route::get('skor_siswa/{skor_siswa}/pdf', 'SkorSiswaController@pdf');
 Route::get('bismillahtest', 'SkorSiswaController@bismillahtest');
+
+Route::get('fpdf', function () {
+
+    Fpdf::AddPage();
+    Fpdf::SetFont('Courier', 'B', 18);
+    Fpdf::Cell(50, 25, 'Hello World!');
+    Fpdf::Output();
+
+});

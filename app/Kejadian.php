@@ -26,4 +26,12 @@ class Kejadian extends Model
     {
         return $this->belongsToMany('App\Siswa', 'kejadian_siswa', 'id_kejadian', 'id_siswa')->withPivot('tanggaljam_kejadian', 'status_terkirim','deleted_at')->withTimeStamps();
     }
+    public function newPivot(Model $parent, array $attributes, $table, $exists, $using = null)
+    {
+        if ($parent instanceof Siswa) {
+            return KejadianSiswaPivot::fromRawAttributes($parent, $attributes, $table, $exists);
+        }
+
+        return parent::newPivot($parent, $attributes, $table, $exists);
+    }
 }

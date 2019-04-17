@@ -8,7 +8,7 @@
     
     <div class="card-body">
         <div class="table-responsive">
-            @if (!empty($kejadian_siswa_list))
+            @if (!empty($skor_list))
                 <table id="dtserverside" class="table table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -23,34 +23,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = ($kejadian_siswa_list->currentpage()-1)* $kejadian_siswa_list->perpage() + 1; ?>
-                        @foreach ($kejadian_siswa_list as $item)
+                        <?php $i = ($skor_list->currentpage()-1)* $skor_list->perpage() + 1;
+                            $pr = 0;
+                            $pp = 0;
+                        ?>
+                        @foreach ($skor_list as $item)
                             <tr>
                                 <td> {{ $i++ }}</td>
-                                <td> {{ $item->siswa->nisn }}</td>
-                                <td> {{ $item->siswa->nama_siswa }}</td>
-                                <td> {{ $item->kejadian->nama_kejadian }}</td>
-                                <td> {{ $item->kejadian->poin_kejadian }}</td>
-                                <td> {{ $item->tanggaljam_kejadian->format('d-m-Y H:i:s') }}</td>
+                                <td> {{ $item->nisn }}</td>
+                                <td> {{ $item->nama_siswa }}</td>
+                                <td> {{ config('poin_awal') }}</td>
+                                <td> {{ $pr = $item->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian') }}</td>
+                                <td> {{ $pp = $item->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') }}</td>
+                                <td> {{ (config('operator_bk') == "kurang") ? config('poin_awal') - ($pp-$pr) : config('poin_awal') + ($pp+$pr) }}</td>
                                 <td>
-                                    <a href="{{ url('kejadian_siswa/'.$item->id) }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Detail</a>
-                                    <a href="{{ url('kejadian_siswa/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
-                                    
-                                    <a class="btn btn-small text-danger" href="#"
-                                    onclick="
-                                    var result = confirm('Are you sure you want to Delete?');
-                                    if (result) {
-                                        event.preventDefault();
-                                        document.getElementById('delete-form').submit();
-                                    }
-                                    ">
-                                    <i class="fas fa-trash"></i>Delete
-                                    </a>
-                                    <form id="delete-form" action="{{ url('kejadian_siswa/'.$item->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    
+                                    <a href="{{ url('skor_siswa/'.$item->id.'/detail') }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Detail</a>
+                                    <a href="{{ url('skor_siswa/'.$item->id.'/pdf') }}" class="btn btn-small"><i class="fas fa-file-pdf"></i>Cetak</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -59,13 +47,13 @@
                 <div class="card-body">
                     <div class="float-left">
                         <strong>
-                            Data Kejadian: {{ $jumlah_kejadian_siswa }}
+                            Data Kejadian: {{ $jumlah_skor }}
                         </strong>
                     </div>
                     
                     <div class="float-right">
                         {{-- {{ $siswa_list-links() }} --}}
-                        {{ $kejadian_siswa_list->links() }}
+                        {{ $skor_list->links() }}
                     </div>
                 </div>
             @else
