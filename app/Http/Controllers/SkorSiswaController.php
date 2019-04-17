@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kejadian_siswa;
 use App\Siswa;
+use App\Kelassw;
 use App\Kejadian;
 use App\User;
 use App\MyCustomClass\PDF_MC_Table;
+use App\Http\Requests\LaporanKejadianRequest;
 use Session;
 use Carbon\Carbon;
+
 class SkorSiswaController extends Controller
 {
     /**
@@ -26,7 +29,7 @@ class SkorSiswaController extends Controller
         $myexp = Kejadian_siswa::all();
         $mysis = Siswa::has('kejadian_siswa')->get();
         
-        $skor_list = Siswa::with('kejadian')->has('kejadian_siswa')->Paginate(5);
+        $skor_list = Siswa::with('kejadian')->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
         $jumlah_skor = Siswa::with('kejadian')->has('kejadian_siswa')->count();
         return view('skor_siswa.index', compact('skor_list','jumlah_skor'));
     }
@@ -68,15 +71,35 @@ class SkorSiswaController extends Controller
         // {
         //     echo $tk->pivot->deleted_at." <br><br>";
         // }
-        $teacher1WithStudents = Siswa::with('kejadian')->has('kejadian_siswa')->get();
-        $mycount = Siswa::with('kejadian')->has('kejadian_siswa')->count();
-        foreach($teacher1WithStudents as $tws)
-        {
-            echo $tws->kejadian->where('tipe_kejadian','pelanggaran');
-            //echo $tws."<br> <br>";
-        }
+        //solution start
+        // $teacher1WithStudents = Siswa::with('kejadian')->has('kejadian_siswa')->get();
+        // $mycount = Siswa::with('kejadian')->has('kejadian_siswa')->count();
+        // foreach($teacher1WithStudents as $tws)
+        // {
+        //     echo $tws->kejadian->where('tipe_kejadian','pelanggaran');
+        //     //echo $tws."<br> <br>";
+        // }
 
-        echo "the count is:".$mycount;
+        // echo "the count is:".$mycount;
+        //solution end
+        $a = 0;
+        $dts = "2019-04-01";
+        $dte = "2019-04-30";
+        $myres = Kejadian_siswa::whereBetween('tanggaljam_kejadian', [$dts,$dte]);
+        if($a == 0){
+            $myres->whereHas('siswa', function($s) {
+                $s->where('id', '>', '0')->whereHas('user', function($u){
+                    $u->where('id',8);
+                });
+        });
+        }
+        $myres = $myres->get();
+
+        foreach($myres as $myr)
+        {
+            echo $myr."<br> <br>";
+        }
+        echo "hi";
     }
 
     /**
@@ -204,11 +227,6 @@ class SkorSiswaController extends Controller
             $pdf->SetY(-38);
 
             $pdf->SetFont('Arial','',8);
-        //	$pdf->Cell(0,5,'Islamic International School of Al Falah Darussalam',0,1,'C');
-        //		$pdf->Cell(0,5,'Al Falah Darussalam Primary School',0,1,'C');
-        //		$pdf->SetFont('Arial','I',8);
-        //		$pdf->Cell(0,5,'Let\'s go to be Better for Excellent Future',0,1,'C');
-        //		$pdf->SetFont('Arial','',8);
 
         //footer akhir
         $pdf->AddPage();
@@ -223,21 +241,6 @@ class SkorSiswaController extends Controller
         $pdf->MultiCell( 0, 5, $lamp3, 0);
         $pdf->MultiCell( 0, 5, '', 0);
         $pdf->MultiCell( 0, 5, '', 0);
-        /*
-        $pdf->SetFont('Arial','',12);
-        $pdf->SetY(38);
-        $pdf->SetX(10);
-        $pdf->MultiCell(50,6,'Nama Kejadian',1);
-        $pdf->SetY(38);
-        $pdf->SetX(60);
-        $pdf->MultiCell(80,6,'Tanggal Kejadian',1);
-        $pdf->SetY(38);
-        $pdf->SetX(140);
-        $pdf->MultiCell(30,6,'Tipe Kejadian',1,'R');
-        $pdf->SetY(38);
-        $pdf->SetX(170);
-        $pdf->MultiCell(30,6,'Poin ',1,'R');
-        */
 
         $c_nama = "";
         $c_tanggal = "";
@@ -312,9 +315,53 @@ class SkorSiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function laporan_kejadian()
     {
-        //
+        $kelas_list = Kelassw::pluck('nama_kelas', 'id');
+        return view('laporan_kejadian.laporan_kejadian', compact('kelas_list'));
+    }
+    public function laporan_kejadian_result(LaporanKejadianRequest $request)
+    {
+        $input = $request->all();
+        $laporan_result = Kejadian_siswa::whereBetween('tanggaljam_kejadian', [$request->dtpstart,$request->dtpend]);
+        $id_kelas = $request->id_kelas;
+        $tipe_kejadian = $request->tipe_kejadian;
+        if($request->id_kelas != "semua"){
+            $laporan_result->whereHas('siswa', function($s) use($id_kelas) {
+                $s->where('id_kelas', $id_kelas);
+            });
+        }
+        if ($request->tipe_kejadian != "semua") {
+            $laporan_result->whereHas('kejadian', function($k) use($tipe_kejadian) {
+                $k->where('tipe_kejadian', $tipe_kejadian);
+            });
+        }
+        $laporan_result = $laporan_result->get();
+
+        $kelas_list = Kelassw::pluck('nama_kelas', 'id');
+        return view('laporan_kejadian.laporan_kejadian', compact('kelas_list','laporan_result','input'));
+    }
+    public function laporan_kejadian_result_excel(Request $request)
+    {
+        echo "hayb";
+        $input = $request->all();
+        $laporan_result = Kejadian_siswa::whereBetween('tanggaljam_kejadian', [$request->dtpstart,$request->dtpend]);
+        $id_kelas = $request->id_kelas;
+        $tipe_kejadian = $request->tipe_kejadian;
+        if($request->id_kelas != "semua"){
+            $laporan_result->whereHas('siswa', function($s) use($id_kelas) {
+                $s->where('id_kelas', $id_kelas);
+            });
+        }
+        if ($request->tipe_kejadian != "semua") {
+            $laporan_result->whereHas('kejadian', function($k) use($tipe_kejadian) {
+                $k->where('tipe_kejadian', $tipe_kejadian);
+            });
+        }
+        $laporan_result = $laporan_result->get();
+
+        $kelas_list = Kelassw::pluck('nama_kelas', 'id');
+        return view('laporan_kejadian.laporan_kejadian_excel', compact('kelas_list','laporan_result','input'));
     }
 
     /**

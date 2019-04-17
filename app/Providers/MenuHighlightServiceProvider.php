@@ -37,6 +37,10 @@ class MenuHighlightServiceProvider extends ServiceProvider
         {
             $halaman="skor_siswa";
         }
+        if(Request::segment(1) == "laporan_kejadian")
+        {
+            $halaman="laporan_kejadian";
+        }
         view()->share('halaman', $halaman);
     }
 }

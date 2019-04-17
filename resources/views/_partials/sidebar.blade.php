@@ -25,6 +25,12 @@
               <span>Skor Siswa</span>
           </a>
         </li>
+        <li class="nav-item {{ ($halaman == "laporan_kejadian" ? 'active':'') }} ">
+          <a class="nav-link "  href="{{ url('laporan_kejadian') }}">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Laporan Kejadian Siswa</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('pengaturan_bk/edit') }}">
             <i class="fas fa-fw fa-cog"></i>

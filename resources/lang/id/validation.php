@@ -136,7 +136,7 @@ return [
             'numeric' => 'Kolom poin kejadian harus angka',
         ],
         'tipe_kejadian' => [
-            'required' => 'Kolom tipe kejadian harus diisi',
+            'required' => 'Pilihan tipe kejadian harus diisi',
         ],
         'id_siswa' => [
             'required' => 'Pilihan Nama Siswa harus diisi',
@@ -149,6 +149,15 @@ return [
         ],
         'jam_kejadian' => [
             'required' => 'Kolom jam kejadian harus diisi',
+        ],
+        'dtpstart' => [
+            'required' => 'Kolom tanggal mulai harus diisi',
+        ],
+        'dtpend' => [
+            'required' => 'Kolom tanggal selesai harus diisi',
+        ],
+        'id_kelas' => [
+            'required' => 'Pilihan Kelas harus diisi',
         ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
