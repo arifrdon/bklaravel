@@ -31,8 +31,8 @@
               <span>Laporan Kejadian Siswa</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('pengaturan_bk/edit') }}">
+        <li class="nav-item {{ ($halaman == "pengaturan_bk" ? 'active':'') }}">
+          <a class="nav-link" href="{{ url('pengaturan_bk') }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>Pengaturan BK</span></a>
         </li>

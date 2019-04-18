@@ -43,3 +43,6 @@ Route::get('bismillahtest', 'SkorSiswaController@bismillahtest');
 Route::get('laporan_kejadian', 'SkorSiswaController@laporan_kejadian');
 Route::post('laporan_kejadian', 'SkorSiswaController@laporan_kejadian_result');
 Route::get('laporan_kejadian_excel', 'SkorSiswaController@laporan_kejadian_result_excel');
+
+Route::get('pengaturan_bk', 'PengaturanBkController@edit_pengaturan');
+Route::post('update_pengaturan', 'PengaturanBkController@update_pengaturan');

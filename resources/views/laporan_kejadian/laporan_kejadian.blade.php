@@ -2,7 +2,7 @@
 @section('main')
 <div class="card mb-3">
     <div class="card-header">
-        <a href="{{ url('kejadian_siswa') }}"><i class="fas fa-arrow-left"></i> Back</a>
+       Laporan Kejadian
     </div>
     <div class="card-body">
         {{-- {{  config('poin_awal') }}

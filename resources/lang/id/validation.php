@@ -159,6 +159,17 @@ return [
         'id_kelas' => [
             'required' => 'Pilihan Kelas harus diisi',
         ],
+        'poin_awal' => [
+            'required' => 'Kolom poin awal harus diisi',
+            'integer' => 'Kolom poin awal harus angka',
+            'between' => 'Kolom poin awal harus berada dikisaran :min - :max',
+        ],
+        'fitur_reward' => [
+            'required' => 'Kolom fitur reward harus diisi',
+        ],
+        'operator_bk' => [
+            'required' => 'Kolom operator bk harus diisi',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
