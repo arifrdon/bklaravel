@@ -24,7 +24,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('daftar_kejadian/{daftar_kejadian}/edit', 'DaftarKejadianController@edit');
 // Route::patch('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@update');
 // Route::delete('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@destroy');
+Route::get('kejadian/cari', 'KejadianController@cari');
 Route::resource('kejadian','KejadianController');
+
 
 // Route::get('kejadian_siswa', 'KejadianSiswaController@index');
 // Route::get('kejadian_siswa/create', 'KejadianSiswaController@create');
@@ -46,3 +48,6 @@ Route::get('laporan_kejadian_excel', 'SkorSiswaController@laporan_kejadian_resul
 
 Route::get('pengaturan_bk', 'PengaturanBkController@edit_pengaturan');
 Route::post('update_pengaturan', 'PengaturanBkController@update_pengaturan');
+
+Route::get('change_password', 'HomeController@editPassword');
+Route::post('update_password', 'HomeController@updatePassword');

@@ -170,6 +170,16 @@ return [
         'operator_bk' => [
             'required' => 'Kolom operator bk harus diisi',
         ],
+        'cur_pass' => [
+            'required' => 'Kolom password saat ini harus diisi',
+        ],
+        'new_pass' => [
+            'required' => 'Kolom password baru harus diisi',
+        ],
+        'new_pass_c' => [
+            'required' => 'Kolom konfirmasi password baru harus diisi',
+            'same' => 'Kolom konfirmasi password baru harus sama dengan kolom password baru',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

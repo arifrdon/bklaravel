@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kejadian;
 use App\Kejadian_siswa;
+use App\User;
+use Auth;
+use Hash;
 use DB;
+use Session;
+use App\Http\Requests\ChangePasswordRequest;
 
 class HomeController extends Controller
 {
@@ -30,5 +35,28 @@ class HomeController extends Controller
         $kejadian_siswa_count = Kejadian_siswa::count();
         $datahighchart = DB::select('select id, COUNT(1) AS entries, UNIX_TIMESTAMP(DATE_ADD(DATE(tanggaljam_kejadian), INTERVAL 7 HOUR)) as tanggal from kejadian_siswa group by tanggal');
         return view('dashboard.index',compact('kejadian_count','kejadian_siswa_count','datahighchart'));
+    }
+    public function editPassword()
+    {
+        return view('auth.passwords.changepassword');
+    }
+    public function updatePassword(ChangePasswordRequest $request)
+    {
+        $current_password = Auth::user()->password;
+        if(Hash::check($request->cur_pass, $current_password))
+        {
+            $user_id = Auth::user()->id;
+            $obj_user = User::find($user_id);
+            $obj_user->password = Hash::make($request->new_pass);
+            $obj_user->save();
+            Session::flash('flash_message', 'Data password berhasil diupdate.');
+            return redirect('/');
+        } 
+        else 
+        {
+            Session::flash('flash_message_fail', 'Data password gagal diupdate. Password saat ini salah');
+            return redirect('change_password');
+        }
+        
     }
 }

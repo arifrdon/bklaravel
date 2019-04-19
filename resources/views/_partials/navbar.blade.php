@@ -46,7 +46,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
           <a class="dropdown-item" href="{{url('pengaturan_bk') }}">Setting</a>
-          <a class="dropdown-item" href="{{url('users/change_password') }}">Ubah Password</a>
+          <a class="dropdown-item" href="{{url('change_password') }}">Ubah Password</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{url('logout') }}" data-toggle="modal" data-target="#logoutModal">Logout</a>
         </div>

@@ -2,6 +2,7 @@
 
 @section('main')
 <div class="card mb-3">
+    
     <div class="card-header">
         <a href="kejadian/create"><i class="fas fa-plus"></i> Add New</a>
     </div>
@@ -10,6 +11,18 @@
         {{-- @foreach ($siswa_list as $item)
             {{ $item->user->name }}
         @endforeach --}}
+        <div class="card-footer">
+            <form action="{{url('kejadian/cari')}}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="kata_kunci" value="{{ !empty($kata_kunci) ? $kata_kunci : '' }}" class="form-control" placeholder="Cari Nama Kejadian">
+                    <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        Cari
+                    </button>
+                    </div>
+                </div>
+            </form> 
+        </div>
         <div class="table-responsive">
             
             @if (!empty($kejadian_list))

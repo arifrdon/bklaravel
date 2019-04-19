@@ -22,9 +22,9 @@ class KejadianController extends Controller
         ->Paginate(5);
         $jumlah_kejadian = Kejadian::count();
 
-        $siswa_list = Siswa::all();
+        
 
-        return view('kejadian.index', compact('kejadian_list','jumlah_kejadian','siswa_list'));
+        return view('kejadian.index', compact('kejadian_list','jumlah_kejadian'));
         //
     }
 
@@ -101,5 +101,14 @@ class KejadianController extends Controller
         $kejadian->delete();
         Session::flash('flash_message', 'Data kejadian berhasil dihapus.');
         return redirect('kejadian');
+    }
+    public function cari(Request $request)
+    {
+        $kata_kunci = $request->kata_kunci;
+        $query = Kejadian::where('nama_kejadian', 'LIKE','%'.$kata_kunci.'%')->orderBy('nama_kejadian','asc');
+        $kejadian_list = $query->paginate(5);
+        $pagination = $kejadian_list->appends($request->except('page'));
+        $jumlah_kejadian = $kejadian_list->total();
+        return view('kejadian.index', compact('kejadian_list','jumlah_kejadian','pagination','kata_kunci'));
     }
 }
