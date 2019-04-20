@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Kejadian_siswa;
 use App\Siswa;
 use App\Kejadian;
+use App\Forum_kejadian;
 use App\Http\Requests\KejadianSiswaRequest;
+use App\Http\Requests\ChatRequest;
 
 use Session;
 
@@ -121,5 +123,26 @@ class KejadianSiswaController extends Controller
         $kejadian_siswa->delete();
         Session::flash('flash_message', 'Data kejadian siswa berhasil dihapus.');
         return redirect('kejadian_siswa');
+    }
+    public function cari(Request $request)
+    {
+        $kata_kunci = $request->kata_kunci;
+        $query = Kejadian_siswa::whereHas('siswa', function($s) use($kata_kunci) {
+            $s->where('nama_siswa', 'LIKE','%'.$kata_kunci.'%');
+        });
+        $kejadian_siswa_list = $query->orderBy('id','desc')->paginate(5);
+        $pagination = $kejadian_siswa_list->appends($request->except('page'));
+        $jumlah_kejadian_siswa = $kejadian_siswa_list->total();
+        return view('kejadian_siswa.index', compact('kejadian_siswa_list','jumlah_kejadian_siswa','pagination','kata_kunci'));
+
+    }
+    public function chatview(Kejadian_siswa $kejadian_siswa)
+    {
+        $forum_kejadian_list = Forum_kejadian::orderBy('created_at','desc')->get();
+        return view('kejadian_siswa.chat', compact('kejadian_siswa','forum_kejadian_list'));
+    }
+    public function chatsave(ChatRequest $request, Kejadian_siswa $kejadian_siswa)
+    {
+        
     }
 }

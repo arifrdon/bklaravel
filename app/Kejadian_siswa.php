@@ -19,15 +19,17 @@ class Kejadian_siswa extends Model
     protected $dates = [
         'deleted_at','tanggaljam_kejadian'
     ];
-
     public function siswa()
     {
         return $this->belongsTo('App\Siswa','id_siswa');
     }
-
     public function kejadian()
     {
         return $this->belongsTo('App\Kejadian','id_kejadian');
+    }
+    public function forum_kejadian()
+    {
+        return $this->hasMany('App\Forum_kejadian', 'id_kejadian_siswa');
     }
     
 }

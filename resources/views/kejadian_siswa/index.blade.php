@@ -8,7 +8,18 @@
     
     <div class="card-body">
         <div class="table-responsive">
-            
+            <div class="card-footer">
+                <form action="{{url('kejadian_siswa/cari')}}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="kata_kunci" value="{{ !empty($kata_kunci) ? $kata_kunci : '' }}" class="form-control" placeholder="Cari Nama Siswa">
+                        <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            Cari
+                        </button>
+                        </div>
+                    </div>
+                </form> 
+            </div>
             @if (!empty($kejadian_siswa_list))
                 <table id="dtserverside" class="table table-hover" cellspacing="0" width="100%">
                     <thead>
@@ -34,6 +45,7 @@
                                 <td> {{ $item->tanggaljam_kejadian->format('d-m-Y H:i:s') }}</td>
                                 <td>
                                     <a href="{{ url('kejadian_siswa/'.$item->id) }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Detail</a>
+                                    <a href="{{ url('kejadian_siswa/'.$item->id.'/chatview') }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Comment</a>
                                     <a href="{{ url('kejadian_siswa/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
                                     
                                     <a class="btn btn-small text-danger" href="#"

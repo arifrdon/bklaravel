@@ -7,6 +7,18 @@
     </div>
     
     <div class="card-body">
+        <div class="card-footer">
+            <form action="{{url('skor_siswa/cari')}}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="kata_kunci" value="{{ !empty($kata_kunci) ? $kata_kunci : '' }}" class="form-control" placeholder="Cari Nama Siswa">
+                    <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        Cari
+                    </button>
+                    </div>
+                </div>
+            </form> 
+        </div>
         <div class="table-responsive">
             @if (!empty($skor_list))
                 <table id="dtserverside" class="table table-hover" cellspacing="0" width="100%">

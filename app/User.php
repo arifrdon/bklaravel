@@ -43,4 +43,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Siswa', 'id_ortu');
     }
+    public function forum_kejadian()
+    {
+        return $this->hasMany('App\Forum_kejadian', 'id_user');
+    }
 }

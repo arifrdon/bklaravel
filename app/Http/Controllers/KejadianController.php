@@ -111,4 +111,5 @@ class KejadianController extends Controller
         $jumlah_kejadian = $kejadian_list->total();
         return view('kejadian.index', compact('kejadian_list','jumlah_kejadian','pagination','kata_kunci'));
     }
+    
 }

@@ -35,11 +35,15 @@ Route::resource('kejadian','KejadianController');
 // Route::get('kejadian_siswa/{kejadian_siswa}/edit', 'KejadianSiswaController@edit');
 // Route::patch('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@update');
 // Route::delete('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@destroy');
+Route::get('kejadian_siswa/cari', 'KejadianSiswaController@cari');
 Route::resource('kejadian_siswa','KejadianSiswaController');
+Route::get('kejadian_siswa/{kejadian_siswa}/chatview', 'KejadianSiswaController@chatview');
+Route::post('kejadian_siswa/{kejadian_siswa}/chatsave', 'KejadianSiswaController@chatsave');
 
 Route::get('skor_siswa', 'SkorSiswaController@index');
 Route::get('skor_siswa/{skor_siswa}/detail', 'SkorSiswaController@show');
 Route::get('skor_siswa/{skor_siswa}/pdf', 'SkorSiswaController@pdf');
+Route::get('skor_siswa/cari', 'SkorSiswaController@cari');
 Route::get('bismillahtest', 'SkorSiswaController@bismillahtest');
 
 Route::get('laporan_kejadian', 'SkorSiswaController@laporan_kejadian');

@@ -180,6 +180,10 @@ return [
             'required' => 'Kolom konfirmasi password baru harus diisi',
             'same' => 'Kolom konfirmasi password baru harus sama dengan kolom password baru',
         ],
+        'komentar' => [
+            'required' => 'Kolom komentar harus diisi',
+            'max' => 'Kolom komentar maksimal :max karakter',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

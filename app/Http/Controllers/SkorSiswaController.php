@@ -22,12 +22,12 @@ class SkorSiswaController extends Controller
      */
     public function index()
     {
-        $kejadian_siswa_list = Kejadian_siswa::orderBy('id','desc')
-        ->Paginate(5);
-        $jumlah_kejadian_siswa = Kejadian_siswa::count();
+        // $kejadian_siswa_list = Kejadian_siswa::orderBy('id','desc')
+        // ->Paginate(5);
+        // $jumlah_kejadian_siswa = Kejadian_siswa::count();
 
-        $myexp = Kejadian_siswa::all();
-        $mysis = Siswa::has('kejadian_siswa')->get();
+        // $myexp = Kejadian_siswa::all();
+        // $mysis = Siswa::has('kejadian_siswa')->get();
         
         $skor_list = Siswa::with('kejadian')->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
         $jumlah_skor = Siswa::with('kejadian')->has('kejadian_siswa')->count();
@@ -364,6 +364,18 @@ class SkorSiswaController extends Controller
         return view('laporan_kejadian.laporan_kejadian_excel', compact('kelas_list','laporan_result','input'));
     }
 
+    public function cari(Request $request)
+    {
+        $kata_kunci = $request->kata_kunci;
+        $query = Siswa::where('nama_siswa', 'LIKE','%'.$kata_kunci.'%');
+        $skor_list = $query->with('kejadian')->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
+        $pagination = $skor_list->appends($request->except('page'));
+        $jumlah_skor = $skor_list->total();
+        return view('skor_siswa.index', compact('skor_list','jumlah_skor','pagination','kata_kunci'));
+
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -386,4 +398,5 @@ class SkorSiswaController extends Controller
     {
         //
     }
+
 }
