@@ -30,7 +30,6 @@
                 foreach($forum_kejadian_list as $fk){
             ?>
                 <table class="table-bordered table">
-                
                     <tr><td bgcolor="#CCCCCC">
                     <span style="float: left;">
                     <?php 
@@ -48,22 +47,20 @@
                     <?php 
                         if(Auth::user()->id == $fk->user->id){
                     ?>
-                        <?php 
-                            if(Auth::user()->level != 'orang_tua'){ ?>
-                            <a href="<?php echo url('kejadian_siswa/deletechat/'.$fk->id.'/'.$kejadian_siswa->id)  ?>"
-                            onclick="return confirm('Apakah Anda yakin untuk menghapus?');" > 
-                            <div class="btn btn-danger btn-xs"><i class="fa fa-times"></i></div>
-                            </a>
-                        <?php 
-                            } else {
-                        ?>
-                            <a href="<?php echo url('kejadian_siswa/deletechat/'.$fk->id.'/'.$kejadian_siswa->id.'/'.$kejadian_siswa->siswa->id)  ?>"
-                            onclick="return confirm('Apakah Anda yakin untuk menghapus?');" > 
-                            <div class="btn btn-danger btn-xs"><i class="fa fa-times"></i></div>
-                            </a>
-                        <?php 
-                            }
-                        ?>
+                        <a href="#"
+                        onclick="
+                        var result = confirm('Apakah Anda yakin untuk menghapus?');
+                        if (result) {
+                            event.preventDefault();
+                            document.getElementById('delete-form').submit();
+                        }
+                        ">
+                        <div class="btn btn-danger btn-xs"><i class="fa fa-times"></i></div>
+                        </a>
+                        <form id="delete-form" action="{{ url('kejadian_siswa/'.$kejadian_siswa->id.'/'.$fk->id.'/chatdelete') }}" method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
                     <?php 
                         }
                     ?>
@@ -72,7 +69,6 @@
                     <tr><td><?php echo $fk->komentar; ?></td></tr>
                 
                 </table>
-                <br>
             <?php
                 }
             ?>
@@ -84,9 +80,6 @@
                 <label for="komentar">Komentar*</label><br>
                 
                 <label><?php echo ucwords(Auth::user()->name); ?> (<?php echo ucwords(str_replace('_', ' ', Auth::user()->level)); ?>)</label>
-                <input type="hidden" id="id_kejadian_siswa"  class="form-control" name="id_kejadian_siswa" value="<?php echo $kejadian_siswa->id; ?>"> 
-                <input  type="hidden" name="user_id" class="form-control" id="user_id" value="<?php echo Auth::user()->id; ?>"> 
-                <input  type="hidden" name="level" class="form-control" id="level" value="<?php echo Auth::user()->level ?>"> 
                 <textarea name="komentar" id="komentar" class="form-control {{ $errors->has('komentar') ? 'is-invalid':'' }}" cols="20" rows="5"></textarea>
                 @if ($errors->has('komentar'))
                 <div class="invalid-feedback">

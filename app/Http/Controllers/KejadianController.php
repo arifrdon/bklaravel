@@ -16,6 +16,11 @@ class KejadianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $kejadian_list = Kejadian::orderBy('nama_kejadian','asc')

@@ -41,7 +41,7 @@
                         @foreach ($kejadian_list as $item)
                             <tr>
                                 <td> {{ $i++ }}</td>
-                                <td> {{ $item->nama_kejadian }}</td>
+                                <td style="width: 43%"> {{ $item->nama_kejadian }}</td>
                                 <td> {{ $item->poin_kejadian }}</td>
                                 <td> {{ $item->tipe_kejadian }}</td>
                                 <td>

@@ -12,3 +12,8 @@
     width:140px;
     height: auto;
 }
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

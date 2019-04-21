@@ -14,6 +14,11 @@ class PengaturanBkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        
+    }
+
     public function index()
     {
         //

@@ -40,12 +40,12 @@
                                 <td> {{ $i++ }}</td>
                                 <td> {{ $item->siswa->nisn }}</td>
                                 <td> {{ $item->siswa->nama_siswa }}</td>
-                                <td> {{ $item->kejadian->nama_kejadian }}</td>
+                                <td style="width: 18%;"> {{ $item->kejadian->nama_kejadian }}</td>
                                 <td> {{ $item->kejadian->poin_kejadian }}</td>
                                 <td> {{ $item->tanggaljam_kejadian->format('d-m-Y H:i:s') }}</td>
                                 <td>
-                                    <a href="{{ url('kejadian_siswa/'.$item->id) }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Detail</a>
-                                    <a href="{{ url('kejadian_siswa/'.$item->id.'/chatview') }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Comment</a>
+                                    
+                                    <a href="{{ url('kejadian_siswa/'.$item->id.'/chatview') }}" class="btn btn-small"><i class="fas fa-comments"></i>Comment</a>
                                     <a href="{{ url('kejadian_siswa/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
                                     
                                     <a class="btn btn-small text-danger" href="#"

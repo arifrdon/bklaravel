@@ -11,6 +11,7 @@ use App\User;
 use App\MyCustomClass\PDF_MC_Table;
 use App\Http\Requests\LaporanKejadianRequest;
 use Session;
+use Auth;
 use Carbon\Carbon;
 
 class SkorSiswaController extends Controller
@@ -20,6 +21,11 @@ class SkorSiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         // $kejadian_siswa_list = Kejadian_siswa::orderBy('id','desc')
@@ -28,9 +34,19 @@ class SkorSiswaController extends Controller
 
         // $myexp = Kejadian_siswa::all();
         // $mysis = Siswa::has('kejadian_siswa')->get();
-        
-        $skor_list = Siswa::with('kejadian')->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
-        $jumlah_skor = Siswa::with('kejadian')->has('kejadian_siswa')->count();
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguru = Siswa::whereHas('kelassw', function($s) use($guruid) {
+                $s->where('id_wali_kelas', '3');
+            })->with('kejadian');
+        } 
+        else 
+        {
+            $queryguru = Siswa::with('kejadian');
+        }
+        $skor_list = $queryguru->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
+        $jumlah_skor = $queryguru->has('kejadian_siswa')->count();
         return view('skor_siswa.index', compact('skor_list','jumlah_skor'));
     }
     public function bismillahtest()
@@ -100,6 +116,11 @@ class SkorSiswaController extends Controller
             echo $myr."<br> <br>";
         }
         echo "hi";
+    }
+    public function bismillahtest2()
+    {
+        $istrue = config('wali_list')->contains('3');
+        dd($istrue);
     }
 
     /**
@@ -367,8 +388,20 @@ class SkorSiswaController extends Controller
     public function cari(Request $request)
     {
         $kata_kunci = $request->kata_kunci;
-        $query = Siswa::where('nama_siswa', 'LIKE','%'.$kata_kunci.'%');
-        $skor_list = $query->with('kejadian')->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguru = Siswa::whereHas('kelassw', function($s) use($guruid) {
+                $s->where('id_wali_kelas', '3');
+            })->with('kejadian');
+        } 
+        else 
+        {
+            $queryguru = Siswa::with('kejadian');
+        }
+        
+        $query = $queryguru->where('nama_siswa', 'LIKE','%'.$kata_kunci.'%');
+        $skor_list = $query->has('kejadian_siswa')->withCount('kejadian_siswa')->orderBy('kejadian_siswa_count','desc')->Paginate(5);
         $pagination = $skor_list->appends($request->except('page'));
         $jumlah_skor = $skor_list->total();
         return view('skor_siswa.index', compact('skor_list','jumlah_skor','pagination','kata_kunci'));

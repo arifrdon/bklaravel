@@ -2,9 +2,7 @@
 
 @section('main')
 <div class="card mb-3">
-    <div class="card-header">
-        <a href="kejadian_siswa/create"><i class="fas fa-plus"></i> Add New</a>
-    </div>
+    
     
     <div class="card-body">
         <div class="card-footer">

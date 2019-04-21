@@ -60,6 +60,10 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'OnlyKepsekAdminGurubk' => \App\Http\Middleware\OnlyKepsekAdminGurubk::class,
+        'OnlyKepsekAdminGurubkGuru' => \App\Http\Middleware\OnlyKepsekAdminGurubkGuru::class,
+        'OnlyKepsek' => \App\Http\Middleware\OnlyKepsek::class,
+        'OnlyGurubk' => \App\Http\Middleware\OnlyGurubk::class,
     ];
 
     /**

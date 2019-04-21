@@ -7,10 +7,12 @@ use App\Kejadian_siswa;
 use App\Siswa;
 use App\Kejadian;
 use App\Forum_kejadian;
+use App\Notif_bk;
 use App\Http\Requests\KejadianSiswaRequest;
 use App\Http\Requests\ChatRequest;
 
 use Session;
+use Auth;
 
 class KejadianSiswaController extends Controller
 {
@@ -19,6 +21,11 @@ class KejadianSiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $kejadian_siswa_list = Kejadian_siswa::orderBy('id','desc')
@@ -143,6 +150,22 @@ class KejadianSiswaController extends Controller
     }
     public function chatsave(ChatRequest $request, Kejadian_siswa $kejadian_siswa)
     {
-        
+        $forum_kejadian = new Forum_kejadian;
+        $forum_kejadian->id_kejadian_siswa = $kejadian_siswa->id;
+        $forum_kejadian->id_user = Auth::user()->id;
+        $forum_kejadian->komentar = $request->komentar;
+        $forum_kejadian->save();
+        $notif_bk = new Notif_bk;
+        $forum_kejadian->notif_bk()->save($notif_bk);
+        Session::flash('flash_message', 'Data chat berhasil ditambahkan.');
+        return redirect('kejadian_siswa/'.$kejadian_siswa->id.'/chatview');
+    }
+    public function chatdelete(Kejadian_siswa $kejadian_siswa, Forum_kejadian $forum_kejadian)
+    {
+        $delete = $forum_kejadian->delete();
+        $notif_delete = Notif_bk::where('id_forum',$forum_kejadian->id);
+        $notif_delete->delete();
+        Session::flash('flash_message', 'Data chat berhasil dihapus.');
+        return redirect('kejadian_siswa/'.$kejadian_siswa->id.'/chatview');
     }
 }

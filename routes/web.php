@@ -37,21 +37,32 @@ Route::resource('kejadian','KejadianController');
 // Route::delete('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@destroy');
 Route::get('kejadian_siswa/cari', 'KejadianSiswaController@cari');
 Route::resource('kejadian_siswa','KejadianSiswaController');
+
 Route::get('kejadian_siswa/{kejadian_siswa}/chatview', 'KejadianSiswaController@chatview');
 Route::post('kejadian_siswa/{kejadian_siswa}/chatsave', 'KejadianSiswaController@chatsave');
+Route::delete('kejadian_siswa/{kejadian_siswa}/{forum_kejadian}/chatdelete', 'KejadianSiswaController@chatdelete');
 
-Route::get('skor_siswa', 'SkorSiswaController@index');
-Route::get('skor_siswa/{skor_siswa}/detail', 'SkorSiswaController@show');
-Route::get('skor_siswa/{skor_siswa}/pdf', 'SkorSiswaController@pdf');
-Route::get('skor_siswa/cari', 'SkorSiswaController@cari');
+Route::middleware(['auth','OnlyKepsekAdminGurubkGuru'])->group(function () {
+    Route::get('skor_siswa', 'SkorSiswaController@index');
+    Route::get('skor_siswa/{skor_siswa}/detail', 'SkorSiswaController@show');
+    Route::get('skor_siswa/{skor_siswa}/pdf', 'SkorSiswaController@pdf');
+    Route::get('skor_siswa/cari', 'SkorSiswaController@cari');
+});
+
 Route::get('bismillahtest', 'SkorSiswaController@bismillahtest');
+Route::get('bismillahtest2', 'SkorSiswaController@bismillahtest2');
 
-Route::get('laporan_kejadian', 'SkorSiswaController@laporan_kejadian');
-Route::post('laporan_kejadian', 'SkorSiswaController@laporan_kejadian_result');
-Route::get('laporan_kejadian_excel', 'SkorSiswaController@laporan_kejadian_result_excel');
+Route::middleware(['auth','OnlyKepsekAdminGurubk'])->group(function () {
+    Route::get('laporan_kejadian', 'SkorSiswaController@laporan_kejadian');
+    Route::post('laporan_kejadian', 'SkorSiswaController@laporan_kejadian_result');
+    Route::get('laporan_kejadian_excel', 'SkorSiswaController@laporan_kejadian_result_excel');
+});
 
-Route::get('pengaturan_bk', 'PengaturanBkController@edit_pengaturan');
-Route::post('update_pengaturan', 'PengaturanBkController@update_pengaturan');
+Route::middleware(['auth','OnlyKepsekAdminGurubk'])->group(function () {
+    Route::get('pengaturan_bk', 'PengaturanBkController@edit_pengaturan');
+    Route::post('update_pengaturan', 'PengaturanBkController@update_pengaturan');
+});
+
 
 Route::get('change_password', 'HomeController@editPassword');
 Route::post('update_password', 'HomeController@updatePassword');

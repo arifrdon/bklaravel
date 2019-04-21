@@ -21,9 +21,12 @@ class Forum_kejadian extends Model
     {
         return $this->belongsTo('App\Kejadian_siswa','id_kejadian_siswa');
     }
-
     public function user()
     {
         return $this->belongsTo('App\User','id_user');
+    }
+    public function notif_bk()
+    {
+        return $this->hasMany('App\Notif_bk','id_forum');
     }
 }
