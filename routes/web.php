@@ -17,30 +17,46 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::get('daftar_kejadian', 'DaftarKejadianController@index');
-// Route::get('daftar_kejadian/create', 'DaftarKejadianController@create');
-// Route::post('daftar_kejadian', 'DaftarKejadianController@store');
-// Route::get('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@show');
-// Route::get('daftar_kejadian/{daftar_kejadian}/edit', 'DaftarKejadianController@edit');
-// Route::patch('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@update');
-// Route::delete('daftar_kejadian/{daftar_kejadian}', 'DaftarKejadianController@destroy');
-Route::get('kejadian/cari', 'KejadianController@cari');
-Route::resource('kejadian','KejadianController');
+Route::middleware(['auth'])->group(function () {
+    Route::get('kejadian/cari', 'KejadianController@cari');
+    Route::get('kejadian', 'KejadianController@index');
+});
+Route::middleware(['auth','OnlyAdminGurubk'])->group(function () {
+    Route::get('kejadian/create', 'KejadianController@create');
+    Route::post('kejadian', 'KejadianController@store');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('kejadian/{kejadian}', 'KejadianController@show');
+});
+Route::middleware(['auth','OnlyAdminGurubk'])->group(function () {
+    Route::get('kejadian/{kejadian}/edit', 'KejadianController@edit');
+    Route::patch('kejadian/{kejadian}', 'KejadianController@update');
+    Route::delete('kejadian/{kejadian}', 'KejadianController@destroy');
+});
+// Route::resource('kejadian','KejadianController');
 
 
-// Route::get('kejadian_siswa', 'KejadianSiswaController@index');
-// Route::get('kejadian_siswa/create', 'KejadianSiswaController@create');
-// Route::post('kejadian_siswa', 'KejadianSiswaController@store');
-// Route::get('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@show');
-// Route::get('kejadian_siswa/{kejadian_siswa}/edit', 'KejadianSiswaController@edit');
-// Route::patch('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@update');
-// Route::delete('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@destroy');
-Route::get('kejadian_siswa/cari', 'KejadianSiswaController@cari');
-Route::resource('kejadian_siswa','KejadianSiswaController');
+Route::middleware(['auth'])->group(function () {
+    Route::get('kejadian_siswa/cari', 'KejadianSiswaController@cari');
 
-Route::get('kejadian_siswa/{kejadian_siswa}/chatview', 'KejadianSiswaController@chatview');
-Route::post('kejadian_siswa/{kejadian_siswa}/chatsave', 'KejadianSiswaController@chatsave');
-Route::delete('kejadian_siswa/{kejadian_siswa}/{forum_kejadian}/chatdelete', 'KejadianSiswaController@chatdelete');
+
+    Route::get('kejadian_siswa', 'KejadianSiswaController@index');
+
+    Route::get('kejadian_siswa/{kejadian_siswa}/chatview', 'KejadianSiswaController@chatview');
+    Route::post('kejadian_siswa/{kejadian_siswa}/chatsave', 'KejadianSiswaController@chatsave');
+    Route::delete('kejadian_siswa/{kejadian_siswa}/{forum_kejadian}/chatdelete', 'KejadianSiswaController@chatdelete');
+});
+Route::middleware(['auth','OnlyAdminGurubkGuru'])->group(function () {
+    Route::get('kejadian_siswa/create', 'KejadianSiswaController@create');
+    Route::post('kejadian_siswa', 'KejadianSiswaController@store');
+
+    Route::get('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@show');
+    Route::get('kejadian_siswa/{kejadian_siswa}/edit', 'KejadianSiswaController@edit');
+    Route::patch('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@update');
+    Route::delete('kejadian_siswa/{kejadian_siswa}', 'KejadianSiswaController@destroy');
+});
+//Route::resource('kejadian_siswa','KejadianSiswaController');
+
 
 Route::middleware(['auth','OnlyKepsekAdminGurubkGuru'])->group(function () {
     Route::get('skor_siswa', 'SkorSiswaController@index');

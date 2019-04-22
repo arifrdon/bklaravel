@@ -2,9 +2,12 @@
 
 @section('main')
 <div class="card mb-3">
-    <div class="card-header">
-        <a href="kejadian_siswa/create"><i class="fas fa-plus"></i> Add New</a>
-    </div>
+    @if (Auth::user()->level =="admin" || Auth::user()->level =="guru_bk" || (Auth::user()->level =="guru" && config('wali_list')->contains(Auth::user()->id)))
+        <div class="card-header">
+            <a href="kejadian_siswa/create"><i class="fas fa-plus"></i> Add New</a>
+        </div>
+    @endif
+    
     
     <div class="card-body">
         <div class="table-responsive">
@@ -46,23 +49,25 @@
                                 <td>
                                     
                                     <a href="{{ url('kejadian_siswa/'.$item->id.'/chatview') }}" class="btn btn-small"><i class="fas fa-comments"></i>Comment</a>
-                                    <a href="{{ url('kejadian_siswa/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
                                     
-                                    <a class="btn btn-small text-danger" href="#"
-                                    onclick="
-                                    var result = confirm('Are you sure you want to Delete?');
-                                    if (result) {
-                                        event.preventDefault();
-                                        document.getElementById('delete-form').submit();
-                                    }
-                                    ">
-                                    <i class="fas fa-trash"></i>Delete
-                                    </a>
-                                    <form id="delete-form" action="{{ url('kejadian_siswa/'.$item->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    
+                                    @if (Auth::user()->level =="admin" || Auth::user()->level =="guru_bk" || (Auth::user()->level =="guru" && config('wali_list')->contains(Auth::user()->id)))
+                                        <a href="{{ url('kejadian_siswa/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
+                                        
+                                        <a class="btn btn-small text-danger" href="#"
+                                        onclick="
+                                        var result = confirm('Are you sure you want to Delete?');
+                                        if (result) {
+                                            event.preventDefault();
+                                            document.getElementById('delete-form').submit();
+                                        }
+                                        ">
+                                        <i class="fas fa-trash"></i>Delete
+                                        </a>
+                                        <form id="delete-form" action="{{ url('kejadian_siswa/'.$item->id) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -38,7 +38,7 @@ class SkorSiswaController extends Controller
         {
             $guruid = Auth::user()->id;
             $queryguru = Siswa::whereHas('kelassw', function($s) use($guruid) {
-                $s->where('id_wali_kelas', '3');
+                $s->where('id_wali_kelas', $guruid);
             })->with('kejadian');
         } 
         else 
@@ -392,7 +392,7 @@ class SkorSiswaController extends Controller
         {
             $guruid = Auth::user()->id;
             $queryguru = Siswa::whereHas('kelassw', function($s) use($guruid) {
-                $s->where('id_wali_kelas', '3');
+                $s->where('id_wali_kelas', $guruid);
             })->with('kejadian');
         } 
         else 

@@ -44,7 +44,7 @@
         <div class="card-body-icon">
           <i class="fas fa-fw fa-users"></i>
         </div>
-        <div class="mr-5">{{ $kejadian_siswa_count }} Interaksi Orang Tua</div>
+        <div class="mr-5">{{ $orang_tua_interaksi_count }} Interaksi Orang Tua</div>
       </div>
       <a class="card-footer text-white clearfix small z-1" href="<?php echo url('kejadian_siswa') ?>">
         <span class="float-left">View Details</span>

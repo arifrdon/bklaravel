@@ -2,10 +2,12 @@
 
 @section('main')
 <div class="card mb-3">
+    @if (Auth::user()->level =="admin" || Auth::user()->level =="guru_bk")
+        <div class="card-header">
+            <a href="kejadian/create"><i class="fas fa-plus"></i> Add New</a>
+        </div>
+    @endif
     
-    <div class="card-header">
-        <a href="kejadian/create"><i class="fas fa-plus"></i> Add New</a>
-    </div>
     
     <div class="card-body">
         {{-- @foreach ($siswa_list as $item)
@@ -46,23 +48,24 @@
                                 <td> {{ $item->tipe_kejadian }}</td>
                                 <td>
                                     <a href="{{ url('kejadian/'.$item->id) }}" class="btn btn-small"><i class="fas fa-info-circle"></i>Detail</a>
-                                    <a href="{{ url('kejadian/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
-                                    
-                                    <a class="btn btn-small text-danger" href="#"
-                                    onclick="
-                                    var result = confirm('Are you sure you want to Delete?');
-                                    if (result) {
-                                        event.preventDefault();
-                                        document.getElementById('delete-form').submit();
-                                    }
-                                    ">
-                                    <i class="fas fa-trash"></i>Delete
-                                    </a>
-                                    <form id="delete-form" action="{{ url('kejadian/'.$item->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    
+                                    @if (Auth::user()->level =="admin" || Auth::user()->level =="guru_bk")
+                                        <a href="{{ url('kejadian/'.$item->id.'/edit') }}" class="btn btn-small"><i class="fas fa-edit"></i>Edit</a>
+                                        
+                                        <a class="btn btn-small text-danger" href="#"
+                                        onclick="
+                                        var result = confirm('Are you sure you want to Delete?');
+                                        if (result) {
+                                            event.preventDefault();
+                                            document.getElementById('delete-form').submit();
+                                        }
+                                        ">
+                                        <i class="fas fa-trash"></i>Delete
+                                        </a>
+                                        <form id="delete-form" action="{{ url('kejadian/'.$item->id) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -28,9 +28,29 @@ class KejadianSiswaController extends Controller
     
     public function index()
     {
-        $kejadian_siswa_list = Kejadian_siswa::orderBy('id','desc')
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                $s->whereHas('kelassw', function($k) use($guruid) {
+                    $k->where('id_wali_kelas', $guruid);
+                });
+            });
+        } 
+        elseif (Auth::user()->level == "orang_tua") {
+            $ortuid = Auth::user()->id;
+            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                $s->where('id_ortu', $ortuid);
+            });
+        }
+        else 
+        {
+            $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+        }
+
+        $kejadian_siswa_list = $queryguruorortu
         ->Paginate(5);
-        $jumlah_kejadian_siswa = Kejadian_siswa::count();
+        $jumlah_kejadian_siswa = $queryguruorortu->count();
 
         return view('kejadian_siswa.index', compact('kejadian_siswa_list','jumlah_kejadian_siswa'));
     }
@@ -42,7 +62,18 @@ class KejadianSiswaController extends Controller
      */
     public function create()
     {
-        $siswa_list = Siswa::pluck('nama_siswa', 'id');
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguru = Siswa::whereHas('kelassw', function($k) use($guruid) {
+                $k->where('id_wali_kelas', $guruid);
+            });
+        }
+        else 
+        {
+            $queryguru = new Siswa;
+        }
+        $siswa_list = $queryguru->pluck('nama_siswa', 'id');
         $kejadian_list = Kejadian::pluck('nama_kejadian', 'id');
         // $siswa2list = Siswa::select('nama_siswa','nisn','id')->get();
         // foreach ($siswa2list as $me){
@@ -99,7 +130,18 @@ class KejadianSiswaController extends Controller
      */
     public function edit(Kejadian_siswa $kejadian_siswa)
     {
-        $siswa_list = Siswa::pluck('nama_siswa', 'id');
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguru = Siswa::whereHas('kelassw', function($k) use($guruid) {
+                $k->where('id_wali_kelas', $guruid);
+            });
+        }
+        else 
+        {
+            $queryguru = new Siswa;
+        }
+        $siswa_list = $queryguru->pluck('nama_siswa', 'id');
         $kejadian_list = Kejadian::pluck('nama_kejadian', 'id');
         return view('kejadian_siswa.edit', compact('kejadian_siswa','siswa_list','kejadian_list'));
     }
@@ -133,15 +175,36 @@ class KejadianSiswaController extends Controller
     }
     public function cari(Request $request)
     {
+        if(Auth::user()->level == "guru")
+        {
+            $guruid = Auth::user()->id;
+            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                $s->whereHas('kelassw', function($k) use($guruid) {
+                    $k->where('id_wali_kelas', $guruid);
+                });
+            });
+        }
+        elseif (Auth::user()->level == "orang_tua") {
+            $ortuid = Auth::user()->id;
+            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                $s->where('id_ortu', $ortuid);
+            });
+        } 
+        else 
+        {
+            $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+        }
+
         $kata_kunci = $request->kata_kunci;
-        $query = Kejadian_siswa::whereHas('siswa', function($s) use($kata_kunci) {
+        $query = $queryguruorortu->whereHas('siswa', function($s) use($kata_kunci) {
             $s->where('nama_siswa', 'LIKE','%'.$kata_kunci.'%');
         });
-        $kejadian_siswa_list = $query->orderBy('id','desc')->paginate(5);
+        $kejadian_siswa_list = $query->paginate(5);
         $pagination = $kejadian_siswa_list->appends($request->except('page'));
         $jumlah_kejadian_siswa = $kejadian_siswa_list->total();
         return view('kejadian_siswa.index', compact('kejadian_siswa_list','jumlah_kejadian_siswa','pagination','kata_kunci'));
 
+        
     }
     public function chatview(Kejadian_siswa $kejadian_siswa)
     {

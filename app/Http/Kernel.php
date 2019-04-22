@@ -62,8 +62,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'OnlyKepsekAdminGurubk' => \App\Http\Middleware\OnlyKepsekAdminGurubk::class,
         'OnlyKepsekAdminGurubkGuru' => \App\Http\Middleware\OnlyKepsekAdminGurubkGuru::class,
-        'OnlyKepsek' => \App\Http\Middleware\OnlyKepsek::class,
-        'OnlyGurubk' => \App\Http\Middleware\OnlyGurubk::class,
+        'OnlyAdminGurubkGuru' => \App\Http\Middleware\OnlyAdminGurubkGuru::class,
+        'OnlyKepsekOrangtua' => \App\Http\Middleware\OnlyKepsekOrangtua::class,
+        'OnlyAdminGurubk' => \App\Http\Middleware\OnlyAdminGurubk::class,
     ];
 
     /**

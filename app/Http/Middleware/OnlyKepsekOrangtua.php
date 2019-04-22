@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class OnlyGurubk
+class OnlyKepsekOrangtua
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,14 @@ class OnlyGurubk
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->level =="guru_bk")
+        if(Auth::user()->level =="kepala_sekolah" || Auth::user()->level =="orang_tua" )
         {
-            
+           
         } else 
         {
             return redirect('/');
         }
+
         return $next($request);
     }
 }
