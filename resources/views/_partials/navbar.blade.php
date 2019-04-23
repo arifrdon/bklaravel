@@ -45,7 +45,9 @@
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="{{url('pengaturan_bk') }}">Setting</a>
+          @if (Auth::user()->level =="admin" || Auth::user()->level =="kepala_sekolah" || Auth::user()->level =="guru_bk")
+            <a class="dropdown-item" href="{{url('pengaturan_bk') }}">Setting</a>
+          @endif
           <a class="dropdown-item" href="{{url('change_password') }}">Ubah Password</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{url('logout') }}" data-toggle="modal" data-target="#logoutModal">Logout</a>

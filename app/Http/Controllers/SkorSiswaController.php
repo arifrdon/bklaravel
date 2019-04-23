@@ -40,7 +40,7 @@ class SkorSiswaController extends Controller
             $queryguru = Siswa::whereHas('kelassw', function($s) use($guruid) {
                 $s->where('id_wali_kelas', $guruid);
             })->with('kejadian');
-        } 
+        }
         else 
         {
             $queryguru = Siswa::with('kejadian');

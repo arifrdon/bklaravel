@@ -79,6 +79,9 @@ Route::middleware(['auth','OnlyKepsekAdminGurubk'])->group(function () {
     Route::post('update_pengaturan', 'PengaturanBkController@update_pengaturan');
 });
 
-
-Route::get('change_password', 'HomeController@editPassword');
-Route::post('update_password', 'HomeController@updatePassword');
+Route::middleware(['auth'])->group(function () {
+    Route::get('change_password', 'HomeController@editPassword');
+    Route::post('update_password', 'HomeController@updatePassword');
+    Route::post('fetchnotif', 'HomeController@fetchnotif');
+    Route::get('exp', 'HomeController@exp');
+});

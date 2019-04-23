@@ -208,7 +208,7 @@ class KejadianSiswaController extends Controller
     }
     public function chatview(Kejadian_siswa $kejadian_siswa)
     {
-        $forum_kejadian_list = Forum_kejadian::orderBy('created_at','desc')->get();
+        $forum_kejadian_list = Forum_kejadian::where('id_kejadian_siswa', $kejadian_siswa->id)->orderBy('created_at','desc')->get();
         return view('kejadian_siswa.chat', compact('kejadian_siswa','forum_kejadian_list'));
     }
     public function chatsave(ChatRequest $request, Kejadian_siswa $kejadian_siswa)
