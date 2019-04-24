@@ -83,5 +83,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('change_password', 'HomeController@editPassword');
     Route::post('update_password', 'HomeController@updatePassword');
     Route::post('fetchnotif', 'HomeController@fetchnotif');
+    
     Route::get('exp', 'HomeController@exp');
+
+    Route::get('imageshow', 'HomeController@imageshow');
+    Route::get('imagecreate', 'HomeController@imagecreate');
+    Route::post('imagestore', 'HomeController@imagestore');
+    Route::delete('imagedelete/{image}', 'HomeController@imagedelete');
 });
+

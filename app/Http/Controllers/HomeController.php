@@ -10,11 +10,13 @@ use App\Notif_bk;
 use App\Siswa;
 use App\Kelassw;
 use App\User;
+use App\Image;
 use Auth;
 use Hash;
 use DB;
 use Session;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ImageRequest;
 
 class HomeController extends Controller
 {
@@ -186,5 +188,47 @@ class HomeController extends Controller
             } else {
                 echo "empty";
             }
+    }
+    public function imageshow()
+    {
+        $image_list = Image::all();
+        return view('image.show', compact('image_list'));
+    }
+    public function imagecreate()
+    {
+        return view('image.create');
+    }
+    public function imagestore(ImageRequest $request)
+    {
+        if($request->hasfile('imagepath'))
+        {
+            echo "1";
+            $foto = $request->file('imagepath');
+            $ext = $foto->getClientOriginalExtension();
+            if($foto->isValid())
+            {
+                echo "2";
+                $newname = date('YmdHis').".$ext";
+                $foto->move(public_path().'/fotopribadi/', $newname);
+                $var_save = new Image;
+                $var_save->imagepath = $newname;
+                $var_save->save();
+            }
+        } else {
+            echo "3";
+        }
+        Session::flash('flash_message', 'Data foto berhasil disimpan.');
+        return redirect('imageshow');
+    }
+    public function imagedelete(Image $image)
+    {
+        if(\File::exists(public_path('fotopribadi/'.$image->imagepath))){
+            \File::delete(public_path('fotopribadi/'.$image->imagepath));
+        }else{
+            dd(public_path('fotopribadi/'.$image->imagepath));
+        }
+        $image->delete();
+        Session::flash('flash_message', 'Data foto berhasil dihapus.');
+        return redirect('imageshow');
     }
 }

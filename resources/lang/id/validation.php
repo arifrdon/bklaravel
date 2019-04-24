@@ -184,6 +184,9 @@ return [
             'required' => 'Kolom komentar harus diisi',
             'max' => 'Kolom komentar maksimal :max karakter',
         ],
+        'imagepath' => [
+            'required' => 'Image harus ada',
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
