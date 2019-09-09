@@ -52,7 +52,7 @@
 
             <div class="form-group">
                 <label for="jam_kejadian">Jam Kejadian*</label>
-                <input type="time" value="{{ old('jam_kejadian') }}" name="jam_kejadian" placeholder="Tanggal Kejadian" class="form-control <{{ $errors->has('jam_kejadian') ? 'is-invalid':'' }}">
+                <input type="time" value="{{ old('jam_kejadian') }}" name="jam_kejadian" placeholder="Tanggal Kejadian" class="form-control {{ $errors->has('jam_kejadian') ? 'is-invalid':'' }}">
                 @if ($errors->has('jam_kejadian'))
                 <div class="invalid-feedback">
                     <span class="form-text text-muted">{{ $errors->first('jam_kejadian') }}</span>
