@@ -326,8 +326,9 @@ class SkorSiswaController extends Controller
         $pdf->SetFont('Times','B',11);
         $pdf->MultiCell(0, 5, '', 0,1);
         $pdf->MultiCell(30,6,'TOTAL : '.$hasilakhir,0,'L');
-
+        
         $pdf->Output();
+        exit;
     }
 
     /**
