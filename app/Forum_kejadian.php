@@ -29,4 +29,20 @@ class Forum_kejadian extends Model
     {
         return $this->hasMany('App\Notif_bk','id_forum');
     }
+    // protected static function boot() {
+    //     parent::boot();
+
+    //     static::deleted(function ($forum_kejadian) {
+    //         $forum_kejadian->notif_bk()->delete();
+    //     });
+    // }
+    protected static function boot() 
+    {
+      parent::boot();
+      static::deleting(function($forum_kejadian) {
+         foreach ($forum_kejadian->notif_bk()->get() as $notif_bk) {
+            $notif_bk->delete();
+         }
+      });
+    }
 }

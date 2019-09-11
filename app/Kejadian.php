@@ -34,4 +34,20 @@ class Kejadian extends Model
 
         return parent::newPivot($parent, $attributes, $table, $exists);
     }
+    // protected static function boot() {
+    //     parent::boot();
+
+    //     static::deleted(function ($kejadian) {
+    //         $kejadian->kejadian_siswa()->delete();
+    //     });
+    // }
+    protected static function boot() 
+    {
+      parent::boot();
+      static::deleting(function($kejadian) {
+         foreach ($kejadian->kejadian_siswa()->get() as $kejadian_siswa) {
+            $kejadian_siswa->delete();
+         }
+      });
+    }
 }

@@ -52,12 +52,12 @@
                         var result = confirm('Apakah Anda yakin untuk menghapus?');
                         if (result) {
                             event.preventDefault();
-                            document.getElementById('delete-form').submit();
+                            document.getElementById('delete-form-{{$fk->id}}').submit();
                         }
                         ">
                         <div class="btn btn-danger btn-xs"><i class="fa fa-times"></i></div>
                         </a>
-                        <form id="delete-form" action="{{ url('kejadian_siswa/'.$kejadian_siswa->id.'/'.$fk->id.'/chatdelete') }}" method="POST" style="display: none;">
+                        <form id="delete-form-{{$fk->id}}" action="{{ url('kejadian_siswa/'.$kejadian_siswa->id.'/'.$fk->id.'/chatdelete') }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                         </form>

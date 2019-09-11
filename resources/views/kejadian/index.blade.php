@@ -56,15 +56,16 @@
                                         var result = confirm('Are you sure you want to Delete?');
                                         if (result) {
                                             event.preventDefault();
-                                            document.getElementById('delete-form').submit();
+                                            document.getElementById('delete-form-{{$item->id}}').submit();
                                         }
                                         ">
                                         <i class="fas fa-trash"></i>Delete
                                         </a>
-                                        <form id="delete-form" action="{{ url('kejadian/'.$item->id) }}" method="POST" style="display: none;">
+                                    <form id="delete-form-{{$item->id}}" action="{{ url('kejadian/'.$item->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        
                                     @endif
                                 </td>
                             </tr>

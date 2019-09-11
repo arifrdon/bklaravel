@@ -31,5 +31,20 @@ class Kejadian_siswa extends Model
     {
         return $this->hasMany('App\Forum_kejadian', 'id_kejadian_siswa');
     }
-    
+    // protected static function boot() {
+    //     parent::boot();
+
+    //     static::deleted(function ($kejadian_siswa) {
+    //         $kejadian_siswa->forum_kejadian()->delete();
+    //     });
+    // }
+    protected static function boot() 
+    {
+      parent::boot();
+      static::deleting(function($kejadian_siswa) {
+         foreach ($kejadian_siswa->forum_kejadian()->get() as $forum_kejadian) {
+            $forum_kejadian->delete();
+         }
+      });
+    }
 }
