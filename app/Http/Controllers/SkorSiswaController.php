@@ -12,6 +12,7 @@ use App\MyCustomClass\PDF_MC_Table;
 use App\Http\Requests\LaporanKejadianRequest;
 use Session;
 use Auth;
+use DB;
 use Carbon\Carbon;
 
 class SkorSiswaController extends Controller
@@ -119,8 +120,44 @@ class SkorSiswaController extends Controller
     }
     public function bismillahtest2()
     {
-        $istrue = config('wali_list')->contains('3');
-        dd($istrue);
+        // $istrue = config('wali_list')->contains('3');
+        // dd($istrue);
+    //     echo "hai";
+        
+    //     DB::enableQueryLog();
+    //     $sub1 = DB::select(DB::raw("SELECT noindukdistinct as id_siswa, namasiswa as nama_siswa, poin_awal, poin_reward, poin_pelanggaran, 
+    //     (poin_awal+poin_reward-poin_pelanggaran) as poin_akhir 
+    //     FROM (
+    //             SELECT distinct(a.id_siswa) as noindukdistinct, b.nama_siswa as namasiswa, 
+    //                 (SELECT nilai_pengaturan 
+    //                 FROM pengaturan_bk 
+    //                 WHERE id=1) as poin_awal,
+    //                     (SELECT COALESCE(sum( a.poin_kejadian ), 0) 
+    //                     FROM kejadian as a 
+    //                     INNER JOIN kejadian_siswa as b ON a.id = b.id_kejadian 
+    //                     WHERE b.id_siswa = noindukdistinct 
+    //                     AND a.tipe_kejadian = 'reward'  AND b.deleted_at IS NULL) as poin_reward,
+    
+    //                     (SELECT COALESCE(sum( a.poin_kejadian ), 0) 
+    //                     FROM kejadian as a 
+    //                     INNER JOIN kejadian_siswa as b ON a.id = b.id_kejadian 
+    //                     WHERE b.id_siswa = noindukdistinct
+    //                     AND a.tipe_kejadian = 'pelanggaran' 
+    //                     AND b.deleted_at IS NULL) as poin_pelanggaran
+    
+    //             FROM kejadian_siswa as a 
+    //             INNER JOIN siswa as b ON a.id_siswa = b.id 
+    //             WHERE a.deleted_at IS NULL and b.nama_siswa LIKE '%adindae%'
+    //     )
+    // abcd"));
+    // $data = $sub1;
+    // print_r($data) ;
+
+        
+    //     dd(DB::getQueryLog()); 
+    $sub1 = DB::select(DB::raw("select * from siswa"));
+    $data = collect($sub1);
+    print_r($data);
     }
 
     /**
