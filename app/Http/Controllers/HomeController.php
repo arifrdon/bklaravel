@@ -231,4 +231,7 @@ class HomeController extends Controller
         Session::flash('flash_message', 'Data foto berhasil dihapus.');
         return redirect('imageshow');
     }
+    public function login2(){
+        return view('auth.login2');
+    }
 }
