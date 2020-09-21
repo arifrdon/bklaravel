@@ -7,7 +7,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>BK Laravel - Login</title>
+
+    <!-- icon -->
+    <link rel="shortcut icon" href="{{ asset('bklogo3.svg') }}">
+    <link href="{{ asset('bklogo3.svg') }}" rel="stylesheet">
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;

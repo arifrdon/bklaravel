@@ -30,3 +30,7 @@
 
     <!-- select2 css-->
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+
+    <!-- icon -->
+    <link rel="shortcut icon" href="{{ asset('bklogo3.svg') }}">
+    <link href="{{ asset('bklogo3.svg') }}" rel="stylesheet">
