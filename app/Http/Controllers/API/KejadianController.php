@@ -26,7 +26,7 @@ class KejadianController extends Controller
             'success' => 'success',
             'data' => $data,
             'message' => 'Kejadian retrieved successfully.',
-            'jumlah_kejadian' => $jumlah_kejadian
+            'jumlah' => $jumlah_kejadian
         ];
 
         return response()->json($response, 200);
@@ -48,7 +48,8 @@ class KejadianController extends Controller
         $response = [
             'success' => 'success',
             'data' => $data,
-            'message' => 'Kejadian retrieved successfully.'
+            'message' => 'Kejadian retrieved successfully.',
+            'jumlah' => 1
         ];
         return response()->json($response, 200);
     }
@@ -89,7 +90,7 @@ class KejadianController extends Controller
             'success' => 'success',
             'data' => $data,
             'message' => 'Kejadian retrieved successfully.',
-            'jumlah_kejadian' => $jumlah_kejadian
+            'jumlah' => $jumlah_kejadian
         ];
 
         return response()->json($response, 200);

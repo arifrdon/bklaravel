@@ -25,14 +25,24 @@ class SkorSiswaController extends Controller
         return response()->json($response, 200);
     }
     public function show($id){
-        $skor_detail = Siswa::with('kejadian')->has('kejadian_siswa')->find($id);
+        if(config('fitur_reward') == 0){
+            $katapelanggaran = "pelanggaran";
+            $skor_detail = Siswa::with(['user','kelassw.user','kejadian' => function($q) use($katapelanggaran) {
+                // Query the name field in status table
+                $q->where('tipe_kejadian', $katapelanggaran); // '=' is optional
+            }])->has('kejadian_siswa')
+            ->find($id);
+        } else {
+            $skor_detail = Siswa::with('kejadian','user','kelassw.user')->has('kejadian_siswa')->find($id);
+        }
+        
         $data = $skor_detail->toArray();
         $jumlah_skor = $skor_detail->count();
         $response = [
             'success' => 'success',
             'data' => $data,
             'message' => 'Skor siswa retrieved successfully.',
-            'jumlah_skor' => $jumlah_skor,
+            'jumlah' => $jumlah_skor,
         ];
         return response()->json($response, 200);
     }
@@ -138,7 +148,8 @@ class SkorSiswaController extends Controller
             'success' => 'success',
             'data' => $data,
             'message' => 'Skor siswa retrieved successfully.',
-            'jumlah_skor' => $jumlah_skor,
+            'jumlah' => $jumlah_skor,
+            'fitur_reward' => config('fitur_reward')
         ];
 
         return $response;

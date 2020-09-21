@@ -38,12 +38,21 @@
                 </thead>
                 <tbody>
                 @foreach ($skor_detail->kejadian as $sd)
+                    @if( $sd->tipe_kejadian == "reward" && config('fitur_reward') == 1 )
+                        <tr>
+                            <th>{{ $sd->nama_kejadian }}</th>
+                            <th>{{ $sd->pivot->tanggaljam_kejadian->format('d-m-Y H:i') }}</th>
+                            <th>{{ $sd->tipe_kejadian }}</th>
+                            <th>{{ $sd->poin_kejadian }}</th>
+                        </tr>
+                    @elseif($sd->tipe_kejadian == "pelanggaran")
                     <tr>
                         <th>{{ $sd->nama_kejadian }}</th>
                         <th>{{ $sd->pivot->tanggaljam_kejadian->format('d-m-Y H:i') }}</th>
                         <th>{{ $sd->tipe_kejadian }}</th>
                         <th>{{ $sd->poin_kejadian }}</th>
                     </tr>
+                    @endif
                 @endforeach
                 </tbody>
                 </table>
@@ -51,7 +60,12 @@
 
     <div class="card-footer small text-muted">
         <?php 
-            $sa = (config('operator_bk') == "kurang") ? config('poin_awal') - ($skor_detail->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') - $skor_detail->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian')) : config('poin_awal') + ($skor_detail->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') + $skor_detail->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian'))
+        $fr = (config('fitur_reward') == 1) ? $skor_detail->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian') : 0;
+            $sa = (config('operator_bk') == "kurang") ? 
+            config('poin_awal') - ($skor_detail->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') 
+            - $fr )  : 
+            config('poin_awal') + ($skor_detail->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') 
+            + $fr )
         ?>
         <strong>Skor Akhir: <?php echo $sa; ?></strong>
     </div>

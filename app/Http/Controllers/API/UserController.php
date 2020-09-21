@@ -19,6 +19,9 @@ class UserController extends Controller
         $column_decider = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (Auth::attempt([$column_decider => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
+            
+
             $success['token'] = $user->createToken('MyApp')->accessToken;
             $success['id'] = Auth::user()->id;
             $success['username'] = Auth::user()->username;
@@ -27,8 +30,13 @@ class UserController extends Controller
             $success['level'] = Auth::user()->level;
             $success['nomor_telepon'] = Auth::user()->nomor_telepon;
             $success['alamat'] = Auth::user()->alamat;
+            if((Auth::user()->level =="guru" && config('wali_list')->contains(Auth::user()->id))){
+                $success['isguruwali'] = 1;
+            } else {
+                $success['isguruwali'] = 0;
+            }
 
-            return response()->json(['success' => $success, 'message' => 'adalah takdirku'], 200);
+            return response()->json(['success' => $success, 'message' => 'login berhasil'], 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }

@@ -31,21 +31,48 @@ class KejadianSiswaController extends Controller
         if(Auth::user()->level == "guru")
         {
             $guruid = Auth::user()->id;
-            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
-                $s->whereHas('kelassw', function($k) use($guruid) {
-                    $k->where('id_wali_kelas', $guruid);
+            if(config('fitur_reward') == 1){
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                    $s->whereHas('kelassw', function($k) use($guruid) {
+                        $k->where('id_wali_kelas', $guruid);
+                    });
                 });
-            });
+            } else {
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                    $s->whereHas('kelassw', function($k) use($guruid) {
+                        $k->where('id_wali_kelas', $guruid);
+                    });
+                })->whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                });
+            }
         } 
         elseif (Auth::user()->level == "orang_tua") {
             $ortuid = Auth::user()->id;
-            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
-                $s->where('id_ortu', $ortuid);
-            });
+            if(config('fitur_reward') == 1){
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                    $s->where('id_ortu', $ortuid);
+                });
+            } else{
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                    $s->where('id_ortu', $ortuid);
+                })->whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                });
+            }
         }
         else 
         {
-            $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+            if(config('fitur_reward') == 0){
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                })->orderBy('id','desc');
+            } else {
+                $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+            }
         }
 
         $kejadian_siswa_list = $queryguruorortu
@@ -178,21 +205,48 @@ class KejadianSiswaController extends Controller
         if(Auth::user()->level == "guru")
         {
             $guruid = Auth::user()->id;
-            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
-                $s->whereHas('kelassw', function($k) use($guruid) {
-                    $k->where('id_wali_kelas', $guruid);
+            if(config('fitur_reward') == 1){
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                    $s->whereHas('kelassw', function($k) use($guruid) {
+                        $k->where('id_wali_kelas', $guruid);
+                    });
                 });
-            });
+            } else {
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($guruid) {
+                    $s->whereHas('kelassw', function($k) use($guruid) {
+                        $k->where('id_wali_kelas', $guruid);
+                    });
+                })->whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                });
+            }
         }
         elseif (Auth::user()->level == "orang_tua") {
             $ortuid = Auth::user()->id;
-            $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
-                $s->where('id_ortu', $ortuid);
-            });
+            if(config('fitur_reward') == 1){
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                    $s->where('id_ortu', $ortuid);
+                });
+            } else{
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('siswa', function($s) use($ortuid) {
+                    $s->where('id_ortu', $ortuid);
+                })->whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                });
+            }
         } 
         else 
         {
-            $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+            if(config('fitur_reward') == 0){
+                $katapelanggaran = "pelanggaran";
+                $queryguruorortu = Kejadian_siswa::whereHas('kejadian', function($s) use($katapelanggaran){
+                    $s->where('tipe_kejadian', $katapelanggaran);
+                })->orderBy('id','desc');
+            } else {
+                $queryguruorortu = Kejadian_siswa::orderBy('id','desc');
+            }
         }
 
         $kata_kunci = $request->kata_kunci;

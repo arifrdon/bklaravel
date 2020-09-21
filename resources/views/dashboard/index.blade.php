@@ -73,7 +73,7 @@
 @section('added-js')
 <script type="text/javascript">
     $(function() {
-        $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function(data) {
+        $.getJSON('https://demo-live-data.highcharts.com/aapl-c.json', function(data) {
             // Create the chart
             window.chart = new Highcharts.StockChart({
                 chart: {

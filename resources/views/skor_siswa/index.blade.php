@@ -26,7 +26,9 @@
                             <th>No Induk</th>
                             <th>Nama Siswa</th>
                             <th>Poin Awal</th>
-                            <th>Poin Reward</th>
+                            @if(config('fitur_reward') == 1)
+                                <th>Poin Reward</th>
+                            @endif
                             <th>Poin Pelanggaran</th>
                             <th>Poin Akhir</th>
                             <th>Aksi</th>
@@ -43,7 +45,9 @@
                                 <td> {{ $item->nisn }}</td>
                                 <td> {{ $item->nama_siswa }}</td>
                                 <td> {{ config('poin_awal') }}</td>
-                                <td> {{ $pr = $item->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian') }}</td>
+                                @if(config('fitur_reward') == 1)
+                                    <td> {{ $pr = $item->kejadian->where('tipe_kejadian','reward')->sum('poin_kejadian') }}</td>
+                                @endif
                                 <td> {{ $pp = $item->kejadian->where('tipe_kejadian','pelanggaran')->sum('poin_kejadian') }}</td>
                                 <td> {{ (config('operator_bk') == "kurang") ? config('poin_awal') - ($pp-$pr) : config('poin_awal') + ($pp+$pr) }}</td>
                                 <td>

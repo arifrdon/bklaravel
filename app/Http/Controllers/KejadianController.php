@@ -23,8 +23,13 @@ class KejadianController extends Controller
     
     public function index()
     {
-        $kejadian_list = Kejadian::orderBy('nama_kejadian','asc')
-        ->Paginate(5);
+        if(config('fitur_reward') == 0){
+            $kejadian_list = Kejadian::where('tipe_kejadian','pelanggaran')->orderBy('nama_kejadian','asc')
+            ->paginate(5);
+        } else {
+            $kejadian_list = Kejadian::orderBy('nama_kejadian','asc')->Paginate(5);
+        }
+       
         $jumlah_kejadian = Kejadian::count();
 
         

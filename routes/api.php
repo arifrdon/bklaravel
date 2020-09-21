@@ -26,7 +26,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'API\UserController@login');
 
-
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('home', 'API\HomeController@index');
+});
 
 Route::middleware(['auth:api'])->group(function () {
     Route::post('update_password', 'API\UserController@updatePassword');
@@ -87,5 +89,10 @@ Route::middleware(['auth:api','OnlyKepsekAdminGurubk'])->group( function () {
 
 Route::middleware(['auth:api','OnlyAdminGurubkGuru'])->group( function () {
     Route::get('siswa', 'API\SiswaController@index');
+});
+
+Route::middleware(['auth:api'])->group( function () {
+    Route::get('siswa_kejadian_dropdown', 'API\SiswaController@siswakejadian_dropdown');
+    Route::post('getreceiverid', 'API\KejadianSiswaController@getreceiverid');
 });
 

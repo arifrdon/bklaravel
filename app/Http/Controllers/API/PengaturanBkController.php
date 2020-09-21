@@ -19,7 +19,7 @@ class PengaturanBkController extends Controller
             'success' => 'success',
             'data' => $data,
             'message' => 'Pengaturan retrieved successfully.',
-            'jumlah_pengaturan' => $jumlah_pengaturan
+            'jumlah' => $jumlah_pengaturan
         ];
 
         return response()->json($response, 200);
